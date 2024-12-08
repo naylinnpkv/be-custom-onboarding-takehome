@@ -1,7 +1,7 @@
 import componentsServices from "../service/componentsServices";
 import { Request, Response } from "express";
 
-class StepsController {
+class ComponentsController {
   async get(req: Request, res: Response) {
     try {
       const components = await componentsServices.findAll();
@@ -12,4 +12,4 @@ class StepsController {
   }
 }
 
-export default new StepsController();
+export default new ComponentsController();
