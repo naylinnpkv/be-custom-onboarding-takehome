@@ -4,6 +4,7 @@ import authenticate from "../middlewares/user";
 
 const router: Router = express.Router();
 
+router.get("/", userController.getAll);
 router.get("/user", authenticate, userController.getUserInfo);
 router.post("/signin-or-signUp", userController.createOrLogin);
 

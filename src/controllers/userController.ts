@@ -4,6 +4,14 @@ import userServices from "../service/userServices";
 import { Request, Response } from "express";
 
 class UserController {
+  async getAll(req: Request, res: Response) {
+    try {
+      const users = await userServices.findAll();
+      res.status(200).json(users);
+    } catch (e) {
+      res.status(400).json({ e: "Errors retrieving users" });
+    }
+  }
   async createOrLogin(req: Request, res: Response) {
     try {
       const { email, password } = req.body;
@@ -30,6 +38,7 @@ class UserController {
           user: existingUser,
           message: "Login successful!",
         });
+        return;
       }
 
       const hashedPw = await bcrypt.hash(password, 10);
@@ -53,9 +62,9 @@ class UserController {
   }
   async updateData(req: Request, res: Response) {
     try {
-      await userServices.update(req.body.data, req.body.userId);
+      const user = await userServices.update(req.body.data, req.body.userId);
 
-      //   res.status(200).json(user);
+      res.status(200).json(user);
     } catch (e) {
       console.error(e);
       res.status(500).json({ message: "Error updating user info" });

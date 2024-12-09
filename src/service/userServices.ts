@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 class UserService {
   async findAll() {
-    return prisma.user.findMany();
+    return prisma.user.findMany({ include: { address: true } });
   }
   async findUserById(id: string) {
     const user = await prisma.user.findUnique({
@@ -29,15 +29,21 @@ class UserService {
         where: { id },
       });
     }
+    const exisitingAddress = await prisma.address.findUnique({
+      where: { userId: id },
+    });
 
-    if (data.userAddress) {
-      await prisma.address.update({
+    // 'create' if address is last step
+    if (data.userAddress && !exisitingAddress) {
+      await prisma.address.create({
         data: { ...data.userAddress, userId: id },
-        where: { userId: id },
       });
     }
 
-    const user = await prisma.user.findUnique({ where: { id } });
+    const user = await prisma.user.findUnique({
+      where: { id },
+      include: { address: true },
+    });
     return user;
   }
 }

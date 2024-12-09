@@ -4,8 +4,8 @@ const prisma = new PrismaClient();
 
 async function insertSteps() {
   const components = [
-    { name: "sign_up", step: 1 },
-    { name: "about_me", step: 2 },
+    { name: "signUp", step: 1 },
+    { name: "aboutMe", step: 2 },
     { name: "address", step: 3 },
     { name: "birthdate", step: 3 },
   ];
