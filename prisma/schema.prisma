@@ -9,8 +9,9 @@ datasource db {
 
 model User {
   id        String    @id @default(uuid())
-  name      String
+  email     String    @unique
   password  String
+  aboutMe   String?
   birthdate DateTime?
   address   Address?
 }
@@ -20,7 +21,7 @@ model Address {
   street String
   city   String
   state  String
-  zip    String
+  zip    Int
   userId String @unique
   user   User   @relation(fields: [userId], references: [id])
 }
